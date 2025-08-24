@@ -50,25 +50,25 @@ install: check-config setup-venv ## Complete installation (creates service, enab
 	# Create systemd service
 	@echo "$(YELLOW)Creating systemd service...$(RESET)"
 	sudo tee /etc/systemd/system/$(SERVICE_FILE) > /dev/null << 'EOF'
-[Unit]
-Description=Enclosure Temperature Monitor
-After=network.target
-StartLimitIntervalSec=0
+	[Unit]
+	Description=Enclosure Temperature Monitor
+	After=network.target
+	StartLimitIntervalSec=0
 
-[Service]
-Type=simple
-Restart=always
-RestartSec=10
-User=$(USER)
-Group=$(USER)
-WorkingDirectory=$(INSTALL_DIR)
-ExecStart=$(INSTALL_DIR)/$(VENV_DIR)/bin/python $(INSTALL_DIR)/env-monitor.py
-StandardOutput=journal
-StandardError=journal
+	[Service]
+	Type=simple
+	Restart=always
+	RestartSec=10
+	User=$(USER)
+	Group=$(USER)
+	WorkingDirectory=$(INSTALL_DIR)
+	ExecStart=$(INSTALL_DIR)/$(VENV_DIR)/bin/python $(INSTALL_DIR)/env-monitor.py
+	StandardOutput=journal
+	StandardError=journal
 
-[Install]
-WantedBy=multi-user.target
-EOF
+	[Install]
+	WantedBy=multi-user.target
+	EOF
 	
 	# Enable and start service
 	sudo systemctl daemon-reload
