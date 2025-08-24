@@ -62,28 +62,26 @@ install: setup-venv check-config ## Complete installation (creates service, enab
 	# Install Python dependencies in new venv
 	cd $(INSTALL_DIR) && $(VENV_DIR)/bin/pip install -r requirements.txt
 	
-	# Create systemd service
 	@echo "Creating systemd service..."
-	@sudo tee /etc/systemd/system/$(SERVICE_FILE) > /dev/null <<EOF
-	[Unit]
-	Description=Enclosure Temperature Monitor
-	After=network.target
-	StartLimitIntervalSec=0
+	@echo "[Unit]" | sudo tee /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "Description=Enclosure Temperature Monitor" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "After=network.target" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "StartLimitIntervalSec=0" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "[Service]" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "Type=simple" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "Restart=always" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "RestartSec=10" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "User=$(USER)" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "Group=$(USER)" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "WorkingDirectory=$(INSTALL_DIR)" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "ExecStart=$(INSTALL_DIR)/$(VENV_DIR)/bin/python $(INSTALL_DIR)/env-monitor.py" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "StandardOutput=journal" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "StandardError=journal" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "[Install]" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
+	@echo "WantedBy=multi-user.target" | sudo tee -a /etc/systemd/system/$(SERVICE_FILE) > /dev/null
 	
-	[Service]
-	Type=simple
-	Restart=always
-	RestartSec=10
-	User=$(USER)
-	Group=$(USER)
-	WorkingDirectory=$(INSTALL_DIR)
-	ExecStart=$(INSTALL_DIR)/$(VENV_DIR)/bin/python $(INSTALL_DIR)/env-monitor.py
-	StandardOutput=journal
-	StandardError=journal
-	
-	[Install]
-	WantedBy=multi-user.target
-	EOF
 	
 	# Enable and start service
 	sudo systemctl daemon-reload
