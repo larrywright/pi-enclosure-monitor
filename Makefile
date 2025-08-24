@@ -23,16 +23,27 @@ RESET := \033[0m
 
 # Default target
 help: ## Show this help message
-	@printf "$(BLUE)Raspberry Pi Enclosure Monitor$(RESET)\n"
-	@printf "=================================\n"
-	@printf "\n"
-	@printf "Available commands:\n"
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-15s$(RESET) %s\n", $1, $2}'
-	@printf "\n"
-	@printf "Quick start:\n"
-	@printf "  1. cp $(CONFIG_TEMPLATE) $(CONFIG_FILE)\n"
-	@printf "  2. edit $(CONFIG_FILE) with your settings\n"
-	@printf "  3. make install\n"
+	@echo "Raspberry Pi Enclosure Monitor"
+	@echo "================================="
+	@echo ""
+	@echo "Available commands:"
+	@echo "  help            Show this help message"
+	@echo "  install         Complete installation (creates service, enables autostart)"
+	@echo "  uninstall       Remove installation and service"
+	@echo "  run             Run locally for testing (not as service)"
+	@echo "  status          Show service status"
+	@echo "  logs            View service logs (follow)"
+	@echo "  restart         Restart the service"
+	@echo "  start           Start the service"
+	@echo "  stop            Stop the service"
+	@echo "  check-config    Verify configuration exists and is valid"
+	@echo "  setup-venv      Create Python virtual environment with uv"
+	@echo "  clean           Clean temporary files and caches"
+	@echo ""
+	@echo "Quick start:"
+	@echo "  1. cp config.py.template config.py"
+	@echo "  2. edit config.py with your settings"
+	@echo "  3. make install"
 
 install: check-config setup-venv ## Complete installation (creates service, enables autostart)
 	@echo "Installing $(PROJECT_NAME)..."
