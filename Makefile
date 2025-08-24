@@ -44,18 +44,23 @@ help: ## Show this help message
 	@echo "  1. cp config.py.template config.py"
 	@echo "  2. edit config.py with your settings"
 	@echo "  3. make install"
+
 install: setup-venv check-config ## Complete installation (creates service, enables autostart)
 	@echo "Installing $(PROJECT_NAME)..."
 	
 	# Create installation directory
 	sudo mkdir -p $(INSTALL_DIR)
 	
-	# Copy files
-	sudo cp -r . $(INSTALL_DIR)/
+	# Copy files (excluding local venv)
+	sudo rsync -av --exclude='venv' --exclude='*.pyc' --exclude='__pycache__' . $(INSTALL_DIR)/
 	sudo chown -R $(USER):$(USER) $(INSTALL_DIR)
 	
-	# Install Python dependencies
-	cd $(INSTALL_DIR) && $(PIP) install -r requirements.txt
+	# Create fresh virtual environment in installation directory
+	@echo "Creating virtual environment in installation directory..."
+	cd $(INSTALL_DIR) && python3 -m venv $(VENV_DIR)
+	
+	# Install Python dependencies in new venv
+	cd $(INSTALL_DIR) && $(VENV_DIR)/bin/pip install -r requirements.txt
 	
 	# Create systemd service
 	@echo "Creating systemd service..."
