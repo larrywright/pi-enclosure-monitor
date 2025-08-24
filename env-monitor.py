@@ -250,7 +250,7 @@ class EnclosureMonitor:
         discovery_prefix = "homeassistant"
         
         self.mqtt_client.publish(
-            f"{discovery_prefix}/sensor/enclosure_temp/config",
+            f"{discovery_prefix}/sensor/enclosure_temperature/config",
             json.dumps(temp_config), retain=True, qos=config.MQTT_QOS
         )
         
@@ -265,7 +265,7 @@ class EnclosureMonitor:
         )
         
         self.mqtt_client.publish(
-            f"{discovery_prefix}/switch/enclosure_auto/config",
+            f"{discovery_prefix}/switch/enclosure_auto_mode/config",
             json.dumps(auto_config), retain=True, qos=config.MQTT_QOS
         )
     
