@@ -109,16 +109,16 @@ logs: ## View service logs (follow)
 	sudo journalctl -u $(SERVICE_NAME) -f
 
 check-config: ## Verify configuration exists and is valid
-	@printf "$(BLUE)Checking configuration...$(RESET)\n"
+	@echo "Checking configuration..."
 	@if [ ! -f $(CONFIG_FILE) ]; then \
-		printf "$(RED)Error: $(CONFIG_FILE) not found!$(RESET)\n"; \
-		printf "$(YELLOW)Copy $(CONFIG_TEMPLATE) to $(CONFIG_FILE) and edit with your settings$(RESET)\n"; \
+		echo "Error: $(CONFIG_FILE) not found!"; \
+		echo "Copy $(CONFIG_TEMPLATE) to $(CONFIG_FILE) and edit with your settings"; \
 		exit 1; \
 	fi
-	@printf "$(GREEN)Configuration file exists$(RESET)\n"
+	@echo "Configuration file exists"
 	@$(PYTHON) -c "import config; print('Configuration syntax is valid')" 2>/dev/null || \
-		(printf "$(RED)Error: Configuration file has syntax errors$(RESET)\n" && exit 1)
-	@printf "$(GREEN)Configuration is valid$(RESET)\n"
+		(echo "Error: Configuration file has syntax errors" && exit 1)
+	@echo "Configuration is valid"
 
 setup-venv: ## Create Python virtual environment with uv
 	@if [ ! -d $(VENV_DIR) ]; then \
