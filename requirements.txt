@@ -1,0 +1,21 @@
+# Raspberry Pi Enclosure Monitor - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# MQTT Communication
+paho-mqtt>=1.6.0
+
+# GPIO Control for Raspberry Pi 5
+lgpio>=0.2.0
+
+# SHT30/SHT31 temperature and humidity sensor support
+adafruit-circuitpython-busdevice>=5.2.0
+adafruit-circuitpython-sht31d>=2.3.0
+
+# System monitoring (optional)
+psutil>=5.9.0
+
+# JSON schema validation (for config validation)
+jsonschema>=4.0.0
+
+# Logging enhancements
+colorlog>=6.0.0
