@@ -44,8 +44,7 @@ help: ## Show this help message
 	@echo "  1. cp config.py.template config.py"
 	@echo "  2. edit config.py with your settings"
 	@echo "  3. make install"
-
-install: check-config setup-venv ## Complete installation (creates service, enables autostart)
+install: setup-venv check-config ## Complete installation (creates service, enables autostart)
 	@echo "Installing $(PROJECT_NAME)..."
 	
 	# Create installation directory
@@ -119,7 +118,7 @@ logs: ## View service logs (follow)
 	@printf "$(BLUE)Following logs (Ctrl+C to stop):$(RESET)\n"
 	sudo journalctl -u $(SERVICE_NAME) -f
 
-check-config: ## Verify configuration exists and is valid
+check-config: setup-venv ## Verify configuration exists and is valid
 	@echo "Checking configuration..."
 	@if [ ! -f $(CONFIG_FILE) ]; then \
 		echo "Error: $(CONFIG_FILE) not found!"; \
