@@ -35,7 +35,7 @@ help: ## Show this help message
 	@printf "  3. make install\n"
 
 install: check-config setup-venv ## Complete installation (creates service, enables autostart)
-	@printf "$(BLUE)Installing $(PROJECT_NAME)...$(RESET)\n"
+	@echo "Installing $(PROJECT_NAME)..."
 	
 	# Create installation directory
 	sudo mkdir -p $(INSTALL_DIR)
@@ -48,13 +48,13 @@ install: check-config setup-venv ## Complete installation (creates service, enab
 	cd $(INSTALL_DIR) && $(PIP) install -r requirements.txt
 	
 	# Create systemd service
-	@printf "$(YELLOW)Creating systemd service...$(RESET)\n"
-	sudo tee /etc/systemd/system/$(SERVICE_FILE) > /dev/null << 'EOF'
+	@echo "Creating systemd service..."
+	@sudo tee /etc/systemd/system/$(SERVICE_FILE) > /dev/null <<EOF
 	[Unit]
 	Description=Enclosure Temperature Monitor
 	After=network.target
 	StartLimitIntervalSec=0
-
+	
 	[Service]
 	Type=simple
 	Restart=always
@@ -65,7 +65,7 @@ install: check-config setup-venv ## Complete installation (creates service, enab
 	ExecStart=$(INSTALL_DIR)/$(VENV_DIR)/bin/python $(INSTALL_DIR)/env-monitor.py
 	StandardOutput=journal
 	StandardError=journal
-
+	
 	[Install]
 	WantedBy=multi-user.target
 	EOF
@@ -75,8 +75,8 @@ install: check-config setup-venv ## Complete installation (creates service, enab
 	sudo systemctl enable $(SERVICE_NAME)
 	sudo systemctl start $(SERVICE_NAME)
 	
-	@printf "$(GREEN)Installation complete!$(RESET)\n"
-	@printf "Service status:\n"
+	@echo "Installation complete!"
+	@echo "Service status:"
 	@make status
 
 uninstall: ## Remove installation and service
