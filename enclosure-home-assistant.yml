@@ -8,23 +8,23 @@ cards:
     title: Enclosure Monitor
     show_header_toggle: false
     entities:
-      - entity: sensor.raspberrypi_temperature
+      - entity: sensor.enclosure_temperature
         name: Temperature
         icon: mdi:thermometer
-      - entity: sensor.raspberrypi_humidity  
+      - entity: sensor.enclosure_humidity  
         name: Humidity
         icon: mdi:water-percent
       - type: divider
-      - entity: switch.raspberrypi_fan
+      - entity: switch.enclosure_fan
         name: Fan Control
         icon: mdi:fan
-      - entity: switch.raspberrypi_auto_mode
+      - entity: switch.enclosure_auto_mode
         name: Auto Mode
         icon: mdi:refresh-auto
 
   # Temperature gauge card
   - type: gauge
-    entity: sensor.raspberrypi_temperature
+    entity: sensor.enclosure_temperature
     name: Temperature
     unit: °C
     min: 0
@@ -36,7 +36,7 @@ cards:
 
   # Humidity gauge card  
   - type: gauge
-    entity: sensor.raspberrypi_humidity
+    entity: sensor.enclosure_humidity
     name: Humidity  
     unit: '%'
     min: 0
@@ -52,9 +52,9 @@ cards:
     hours_to_show: 24
     refresh_interval: 300
     entities:
-      - entity: sensor.raspberrypi_temperature
+      - entity: sensor.enclosure_temperature
         name: Temperature
-      - entity: sensor.raspberrypi_humidity
+      - entity: sensor.enclosure_humidity
         name: Humidity
 
 ---
@@ -63,15 +63,15 @@ cards:
 type: glance
 title: Enclosure Monitor
 entities:
-  - entity: sensor.raspberrypi_temperature
+  - entity: sensor.enclosure_temperature
     name: Temp
-  - entity: sensor.raspberrypi_humidity
+  - entity: sensor.enclosure_humidity
     name: Humidity  
-  - entity: switch.raspberrypi_fan
+  - entity: switch.enclosure_fan
     name: Fan
     tap_action:
       action: toggle
-  - entity: switch.raspberrypi_auto_mode
+  - entity: switch.enclosure_auto_mode
     name: Auto
     tap_action:
       action: toggle
@@ -85,18 +85,18 @@ cards:
   - type: horizontal-stack
     cards:
       - type: stat
-        entity: sensor.raspberrypi_temperature
+        entity: sensor.enclosure_temperature
         name: Temperature
         icon: mdi:thermometer
       - type: stat  
-        entity: sensor.raspberrypi_humidity
+        entity: sensor.enclosure_humidity
         name: Humidity
         icon: mdi:water-percent
 
   - type: horizontal-stack
     cards:
       - type: button
-        entity: switch.raspberrypi_fan
+        entity: switch.enclosure_fan
         name: Fan
         icon: mdi:fan
         tap_action:
@@ -104,7 +104,7 @@ cards:
         hold_action:
           action: more-info
       - type: button
-        entity: switch.raspberrypi_auto_mode  
+        entity: switch.enclosure_auto_mode  
         name: Auto Mode
         icon: mdi:refresh-auto
         tap_action:
@@ -113,10 +113,10 @@ cards:
   # Mini graph for recent trends
   - type: mini-graph-card
     entities:
-      - entity: sensor.raspberrypi_temperature
+      - entity: sensor.enclosure_temperature
         name: Temperature
         color: '#ff6b6b'
-      - entity: sensor.raspberrypi_humidity
+      - entity: sensor.enclosure_humidity
         name: Humidity  
         color: '#4ecdc4'
         y_axis: secondary

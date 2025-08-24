@@ -15,11 +15,8 @@ MQTT_USERNAME = None  # Set to None for no authentication, or "your_username"
 MQTT_PASSWORD = None  # Set to None for no authentication, or "your_password"
 
 # MQTT Topic Configuration
-# Device identifier (uses hostname by default)
-DEVICE_ID = socket.gethostname().lower().replace(" ", "-").replace("_", "-")
-
-# Topic prefix - creates topics like: homeassistant/sensor/raspberrypi/temperature/state
-MQTT_TOPIC_PREFIX = f"homeassistant/sensor/{DEVICE_ID}"
+# Topic prefix - creates topics like: homeassistant/sensor/enclosure/temperature/state
+MQTT_TOPIC_PREFIX = "homeassistant/sensor/enclosure"
 
 # ========================================
 # Temperature Control Settings
@@ -70,8 +67,8 @@ ENABLE_HA_DISCOVERY = True
 
 # Device information for Home Assistant
 DEVICE_INFO = {
-    "identifiers": [f"enclosure_monitor_{DEVICE_ID}"],
-    "name": f"Enclosure Monitor ({DEVICE_ID.title()})",
+    "identifiers": ["enclosure_monitor"],
+    "name": "Enclosure Monitor",
     "manufacturer": "Custom",
     "model": "Pi Monitor SHT30",
     "sw_version": "1.0.0"
