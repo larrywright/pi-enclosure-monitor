@@ -1,0 +1,128 @@
+# Enclosure Monitor Configuration Template
+# Copy this file to config.py and edit with your settings
+# DO NOT commit config.py to git - it contains your credentials
+
+import socket
+
+# ========================================
+# MQTT Configuration
+# ========================================
+
+# MQTT Broker Settings
+MQTT_BROKER = "mqtt.home"  # IP address or hostname of your MQTT broker
+MQTT_PORT = 1883
+MQTT_USERNAME = None  # Set to None for no authentication, or "your_username"
+MQTT_PASSWORD = None  # Set to None for no authentication, or "your_password"
+
+# MQTT Topic Configuration
+# Device identifier (uses hostname by default)
+DEVICE_ID = socket.gethostname().lower().replace(" ", "-").replace("_", "-")
+
+# Topic prefix - creates topics like: homeassistant/sensor/raspberrypi/temperature/state
+MQTT_TOPIC_PREFIX = f"homeassistant/sensor/{DEVICE_ID}"
+
+# ========================================
+# Temperature Control Settings
+# ========================================
+
+# Temperature thresholds (in Celsius)
+TEMP_THRESHOLD_ON = 30.0   # Turn fan ON when temperature reaches this
+TEMP_THRESHOLD_OFF = 25.0  # Turn fan OFF when temperature drops to this
+
+# Hysteresis prevents rapid on/off cycling
+# The difference between ON and OFF thresholds should be at least 2-3°C
+
+# Critical temperature override (Celsius)
+# If temperature reaches this level, fan will turn on regardless of manual mode
+TEMP_CRITICAL = 45.0
+
+# ========================================
+# Hardware Configuration
+# ========================================
+
+# GPIO Pin Assignments (BCM numbering)
+FAN_PIN = 18  # GPIO pin connected to fan control (MOSFET gate)
+
+# Sensor Configuration
+# Using SHT30/SHT31 temperature and humidity sensor via I2C
+I2C_ADDRESS = 0x44  # Default I2C address for SHT30/SHT31
+
+# ========================================
+# Monitoring Settings
+# ========================================
+
+# How often to read sensors and check temperature (seconds)
+UPDATE_INTERVAL = 30
+
+# How often to publish sensor data to MQTT (seconds)
+# Should be same or multiple of UPDATE_INTERVAL
+PUBLISH_INTERVAL = 30
+
+# Sensor reading timeout (seconds)
+SENSOR_TIMEOUT = 5
+
+# ========================================
+# Home Assistant Integration
+# ========================================
+
+# Enable Home Assistant MQTT Discovery
+ENABLE_HA_DISCOVERY = True
+
+# Device information for Home Assistant
+DEVICE_INFO = {
+    "identifiers": [f"enclosure_monitor_{DEVICE_ID}"],
+    "name": f"Enclosure Monitor ({DEVICE_ID.title()})",
+    "manufacturer": "Custom",
+    "model": "Pi Monitor SHT30",
+    "sw_version": "1.0.0"
+}
+
+# Temperature unit for Home Assistant display
+TEMP_UNIT = "°C"  # Options: "°C" or "°F"
+
+# ========================================
+# Advanced Settings
+# ========================================
+
+# Logging configuration
+LOG_LEVEL = "INFO"  # Options: "DEBUG", "INFO", "WARNING", "ERROR"
+LOG_TO_FILE = False  # Set True to also log to file
+LOG_FILE = "/var/log/enclosure-monitor.log"
+
+# MQTT Connection Settings
+MQTT_KEEPALIVE = 60
+MQTT_QOS = 1  # Quality of Service (0, 1, or 2)
+MQTT_RETAIN = True  # Retain messages for state topics
+
+# Startup delay (seconds) - useful if network takes time to initialize
+STARTUP_DELAY = 10
+
+# Fan control safety settings
+FAN_MIN_ON_TIME = 60    # Minimum seconds fan stays on once activated
+FAN_MAX_RUNTIME = 3600  # Maximum continuous runtime (safety shutoff)
+
+# ========================================
+# Validation (don't edit)
+# ========================================
+
+def validate_config():
+    """Validate configuration settings"""
+    errors = []
+    
+    if TEMP_THRESHOLD_ON <= TEMP_THRESHOLD_OFF:
+        errors.append("TEMP_THRESHOLD_ON must be higher than TEMP_THRESHOLD_OFF")
+    
+    if (TEMP_THRESHOLD_ON - TEMP_THRESHOLD_OFF) < 2:
+        errors.append("Temperature thresholds should have at least 2°C hysteresis")
+    
+    if UPDATE_INTERVAL < 10:
+        errors.append("UPDATE_INTERVAL should be at least 10 seconds")
+    
+    if PUBLISH_INTERVAL % UPDATE_INTERVAL != 0:
+        errors.append("PUBLISH_INTERVAL should be a multiple of UPDATE_INTERVAL")
+    
+    if errors:
+        raise ValueError("Configuration errors:\n" + "\n".join(f"  - {error}" for error in errors))
+
+# Validate configuration when imported
+validate_config()
