@@ -201,7 +201,7 @@ class EnclosureMonitor:
         # Temperature sensor
         temp_config = {
             "name": "Temperature",
-            "unique_id": f"{config.DEVICE_ID}_temperature",
+            "unique_id": "enclosure_temperature",
             "state_topic": f"{config.MQTT_TOPIC_PREFIX}/temperature/state",
             "unit_of_measurement": config.TEMP_UNIT,
             "device_class": "temperature",
@@ -213,7 +213,7 @@ class EnclosureMonitor:
         # Humidity sensor
         humidity_config = {
             "name": "Humidity",
-            "unique_id": f"{config.DEVICE_ID}_humidity",
+            "unique_id": "enclosure_humidity",
             "state_topic": f"{config.MQTT_TOPIC_PREFIX}/humidity/state",
             "unit_of_measurement": "%",
             "device_class": "humidity",
@@ -225,7 +225,7 @@ class EnclosureMonitor:
         # Fan switch
         fan_config = {
             "name": "Fan",
-            "unique_id": f"{config.DEVICE_ID}_fan",
+            "unique_id": "enclosure_fan",
             "state_topic": f"{config.MQTT_TOPIC_PREFIX}/fan/state",
             "command_topic": f"{config.MQTT_TOPIC_PREFIX}/fan/set",
             "payload_on": "ON",
@@ -237,7 +237,7 @@ class EnclosureMonitor:
         # Auto mode switch
         auto_config = {
             "name": "Auto Mode",
-            "unique_id": f"{config.DEVICE_ID}_auto_mode",
+            "unique_id": "enclosure_auto_mode",
             "state_topic": f"{config.MQTT_TOPIC_PREFIX}/fan_auto/state",
             "command_topic": f"{config.MQTT_TOPIC_PREFIX}/fan_auto/set",
             "payload_on": "ON",
@@ -250,22 +250,22 @@ class EnclosureMonitor:
         discovery_prefix = "homeassistant"
         
         self.mqtt_client.publish(
-            f"{discovery_prefix}/sensor/{config.DEVICE_ID}_temp/config",
+            f"{discovery_prefix}/sensor/enclosure_temp/config",
             json.dumps(temp_config), retain=True, qos=config.MQTT_QOS
         )
         
         self.mqtt_client.publish(
-            f"{discovery_prefix}/sensor/{config.DEVICE_ID}_humidity/config",
+            f"{discovery_prefix}/sensor/enclosure_humidity/config",
             json.dumps(humidity_config), retain=True, qos=config.MQTT_QOS
         )
         
         self.mqtt_client.publish(
-            f"{discovery_prefix}/switch/{config.DEVICE_ID}_fan/config",
+            f"{discovery_prefix}/switch/enclosure_fan/config",
             json.dumps(fan_config), retain=True, qos=config.MQTT_QOS
         )
         
         self.mqtt_client.publish(
-            f"{discovery_prefix}/switch/{config.DEVICE_ID}_auto/config",
+            f"{discovery_prefix}/switch/enclosure_auto/config",
             json.dumps(auto_config), retain=True, qos=config.MQTT_QOS
         )
     
