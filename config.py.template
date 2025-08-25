@@ -22,16 +22,24 @@ MQTT_TOPIC_PREFIX = "homeassistant/sensor/enclosure"
 # Temperature Control Settings
 # ========================================
 
-# Temperature thresholds (in Celsius)
-TEMP_THRESHOLD_ON = 30.0   # Turn fan ON when temperature reaches this
-TEMP_THRESHOLD_OFF = 25.0  # Turn fan OFF when temperature drops to this
+# Temperature unit
+# NOTE: if you change this, all the other temperature settings must be updated accordingly
+TEMP_UNIT = "°F" # Options: "°C" or "°F" - 
+
+# Temperature thresholds (in Fahrenheit)
+
+# Turn fan ON when temperature reaches this
+TEMP_THRESHOLD_ON = 86.0   # Was 30°C
+
+# Turn fan OFF when temperature drops to this
+TEMP_THRESHOLD_OFF = 77.0  # Was 25°C  
 
 # Hysteresis prevents rapid on/off cycling
-# The difference between ON and OFF thresholds should be at least 2-3°C
+# The difference between ON and OFF thresholds should be at least 4-5°F, 2-3°C
 
-# Critical temperature override (Celsius)
+# Critical temperature override (Fahrenheit)
 # If temperature reaches this level, fan will turn on regardless of manual mode
-TEMP_CRITICAL = 45.0
+TEMP_CRITICAL = 113.0      # Was 45°C
 
 # ========================================
 # Hardware Configuration
@@ -73,9 +81,6 @@ DEVICE_INFO = {
     "model": "Pi Monitor SHT30",
     "sw_version": "1.0.0"
 }
-
-# Temperature unit for Home Assistant display
-TEMP_UNIT = "°C"  # Options: "°C" or "°F"
 
 # ========================================
 # Advanced Settings
