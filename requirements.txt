@@ -6,6 +6,7 @@ paho-mqtt>=1.6.0
 
 # GPIO Control for Raspberry Pi 5
 lgpio>=0.2.0
+adafruit-blinka>=9.2.0
 
 # SHT30/SHT31 temperature and humidity sensor support
 adafruit-circuitpython-busdevice>=5.2.0
