@@ -23,6 +23,7 @@ import paho.mqtt.client as mqtt
 import lgpio
 import board
 import adafruit_sht31d
+from adafruit_blinka.microcontroller.generic_linux.lgpio_pin import CHIP as gpio_chip
 
 # Import configuration
 try:
@@ -93,7 +94,7 @@ class EnclosureMonitor:
         
         # Setup GPIO
         try:
-            self.gpio_chip = lgpio.gpiochip_open(0)
+            self.gpio_chip = gpio_chip
             lgpio.gpio_claim_output(self.gpio_chip, config.FAN_PIN)
             self.logger.info(f"GPIO initialized, fan control on pin {config.FAN_PIN}")
         except Exception as e:
